@@ -21,7 +21,7 @@ describe "Student" do
 
   describe "attributes" do
     it 'has a name and a grade' do
-      student = Student.new("Tiffany", "11th")
+      student = Student.new(name: "Tiffany", grade: "11th")
       expect(student.name).to eq("Tiffany")
       expect(student.grade).to eq("11th")
     end
@@ -57,7 +57,7 @@ describe "Student" do
     end
 
     it 'updates a record if called on an object that is already persisted' do
-      jane = Student.new("Jane", "11th")
+      jane = Student.new(name: "Jane", grade: "11th")
       jane.save
       jane_id = jane.id
       jane.name = "Jane Smith"
@@ -69,14 +69,14 @@ describe "Student" do
 
   describe ".create" do
     it 'creates a student with two attributes, name and grade, and saves it into the students table.' do
-      Student.create("Sally", "10th")
+      Student.create(name: "Sally", grade: "10th")
       expect(DB[:conn].execute("SELECT * FROM students")).to eq([[1, "Sally", "10th"]])
     end
   end
 
   describe '.new_from_db' do
     it 'creates an instance with corresponding attribute values' do
-      row = [1, "Pat", 12]
+      row = [id: 1, name: "Pat", grade: "12"]
       pat = Student.new_from_db(row)
 
       expect(pat.id).to eq(row[0])
